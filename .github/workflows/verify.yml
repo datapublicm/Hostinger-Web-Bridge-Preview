@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/github-remote-preview
+      - feature/github-remote-panel
   pull_request:
 
 jobs:
