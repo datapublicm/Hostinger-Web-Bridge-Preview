@@ -12,6 +12,26 @@
     if (message) message.textContent = detail;
   }
 
+  function loadScript(src, onError) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onerror = onError;
+    document.body.appendChild(script);
+  }
+
+  async function loadRemoteFilesAppIfAuthenticated() {
+    try {
+      const session = await RemoteAuth.getSession();
+      if (!session) return false;
+      loadScript('./remote-app.js', () => {
+        showFailure('No se pudo cargar Archivos', 'El módulo GitHub Remote no pudo iniciarse.');
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async function loadPrivateFilesApp() {
     try {
       const response = await fetch(`${API}/api/ui/files-app.js`, {
@@ -41,5 +61,8 @@
     }
   }
 
-  loadPrivateFilesApp();
+  (async () => {
+    if (await loadRemoteFilesAppIfAuthenticated()) return;
+    await loadPrivateFilesApp();
+  })();
 })();
