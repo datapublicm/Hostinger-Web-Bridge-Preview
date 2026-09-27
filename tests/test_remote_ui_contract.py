@@ -1,0 +1,54 @@
+from pathlib import Path
+
+
+PORTAL = Path('portal/index.html')
+REMOTE = Path('remote/index.html')
+APP = Path('remote/app.js')
+
+
+def test_portal_keeps_direct_bridge_and_opens_remote_panel():
+    html = PORTAL.read_text('utf-8')
+    assert 'Acceso directo al Bridge' in html
+    assert 'data-login-form' in html
+    assert 'GitHub Remote' in html
+    assert 'href="../remote/"' in html
+
+
+def test_remote_page_reuses_existing_shell_and_has_auth_states():
+    assert REMOTE.exists()
+    html = REMOTE.read_text('utf-8')
+    assert '../shared/discod-shell.css' in html
+    for label in ['Inicio', 'Archivos', 'Python', 'Consola']:
+        assert label in html
+    assert 'data-remote-login' in html
+    assert 'Iniciar sesión con GitHub' in html
+    assert 'data-remote-workspace' in html
+    assert 'data-action="logout"' in html
+
+
+def test_remote_page_has_three_modes_delete_confirmation_and_results():
+    html = REMOTE.read_text('utf-8')
+    for mode in ['Archivos', 'Python', 'Consola']:
+        assert f'>{mode}<' in html
+    assert 'DELETE' in html
+    assert 'data-remote-status' in html
+    assert 'data-remote-result' in html
+    assert 'discod-remote.yml' in html
+
+
+def test_remote_app_maps_supported_operations_without_direct_github_api():
+    assert APP.exists()
+    text = APP.read_text('utf-8')
+    for operation in ['list', 'mkdir', 'rename', 'move', 'delete', 'read-text', 'write-text', 'prepare-download', 'python-run', 'python-run-file', 'terminal-exec']:
+        assert operation in text
+    assert 'RemoteAuth' in text
+    assert 'RemoteAPI' in text
+    assert 'api.github.com' not in text
+
+
+def test_remote_page_loads_only_publishable_supabase_client_configuration():
+    html = REMOTE.read_text('utf-8')
+    assert '../shared/supabase-config.js' in html
+    assert '../shared/remote-api.js' in html
+    for forbidden in ['service_role', 'github_pat_', 'ghp_', 'OPENSSH PRIVATE KEY']:
+        assert forbidden not in html
