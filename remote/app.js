@@ -10,6 +10,8 @@ const loginButton = document.querySelector('[data-action="github-login"]');
 const logoutButton = document.querySelector('[data-action="logout"]');
 const tabs = [...document.querySelectorAll('[data-mode]')];
 const panels = [...document.querySelectorAll('[data-panel]')];
+const moduleLinks = [...document.querySelectorAll('.nav-item[data-module]')];
+const remoteModes = new Set(['files', 'python', 'terminal']);
 
 function setHeader(state, text) {
   headerStatus.dataset.state = state;
@@ -22,6 +24,21 @@ function setStatus(text) {
 
 function showResult(value) {
   resultNode.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+}
+
+function modeFromHash() {
+  const mode = window.location.hash.replace(/^#/, '');
+  return remoteModes.has(mode) ? mode : 'files';
+}
+
+function activateMode(mode) {
+  const selected = remoteModes.has(mode) ? mode : 'files';
+  tabs.forEach((item) => item.classList.toggle('active', item.dataset.mode === selected));
+  panels.forEach((panel) => { panel.hidden = panel.dataset.panel !== selected; });
+  moduleLinks.forEach((link) => {
+    const module = link.dataset.module;
+    link.classList.toggle('active', remoteModes.has(module) && module === selected);
+  });
 }
 
 function setAuthenticated(session) {
@@ -94,11 +111,13 @@ logoutButton?.addEventListener('click', async () => {
 
 tabs.forEach((tab) => {
   tab.addEventListener('click', () => {
-    const mode = tab.dataset.mode;
-    tabs.forEach((item) => item.classList.toggle('active', item === tab));
-    panels.forEach((panel) => { panel.hidden = panel.dataset.panel !== mode; });
+    const mode = tab.dataset.mode || 'files';
+    if (window.location.hash !== `#${mode}`) window.location.hash = mode;
+    else activateMode(mode);
   });
 });
+
+window.addEventListener('hashchange', () => activateMode(modeFromHash()));
 
 document.querySelector('[data-files-form]')?.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -147,4 +166,5 @@ document.querySelector('[data-terminal-form]')?.addEventListener('submit', async
 // Operations exposed by the backend contract: list, mkdir, rename, move, delete,
 // read-text, write-text, prepare-download, upload, python-run, python-run-file,
 // terminal-exec.
+activateMode(modeFromHash());
 refreshSession();
