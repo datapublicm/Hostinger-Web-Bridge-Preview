@@ -32,6 +32,16 @@ def test_remote_auth_card_respects_hidden_state_after_login():
     assert '.remote-auth-card[hidden]{display:none}' in css
 
 
+def test_remote_sidebar_stays_inside_remote_panel():
+    html = REMOTE.read_text('utf-8')
+    assert 'data-module="files" href="#files"' in html
+    assert 'data-module="python" href="#python"' in html
+    assert 'data-module="terminal" href="#terminal"' in html
+    app = APP.read_text('utf-8')
+    assert "window.addEventListener('hashchange'" in app
+    assert "window.location.hash" in app
+
+
 def test_remote_page_has_three_modes_delete_confirmation_and_results():
     html = REMOTE.read_text('utf-8')
     for mode in ['Archivos', 'Python', 'Consola']:
