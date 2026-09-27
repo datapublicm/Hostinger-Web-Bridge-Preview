@@ -7,24 +7,6 @@ const password = document.querySelector('[data-login-password]');
 const message = document.querySelector('[data-login-message]');
 const logout = document.querySelector('[data-action="logout"]');
 
-const REMOTE_TARGETS = Object.freeze({
-  files: '../remote/#files',
-  python: '../remote/#python',
-  terminal: '../remote/#terminal',
-});
-
-async function applyRemoteNavigationIfAuthenticated() {
-  try {
-    const session = await RemoteAuth.getSession();
-    if (!session) return;
-    document.querySelectorAll('[data-remote-target]').forEach((link) => {
-      const target = link.dataset.remoteTarget;
-      const href = REMOTE_TARGETS[target];
-      if (href) link.setAttribute('href', href);
-    });
-  } catch {}
-}
-
 async function api(path, options = {}) {
   const headers = new Headers(options.headers || {});
   if (API.includes('ngrok')) headers.set('ngrok-skip-browser-warning', 'true');
@@ -87,5 +69,4 @@ logout?.addEventListener('click', async () => {
   setAuthenticated(false);
 });
 
-applyRemoteNavigationIfAuthenticated();
 checkSession();

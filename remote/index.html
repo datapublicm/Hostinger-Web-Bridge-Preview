@@ -12,10 +12,10 @@
   <aside class="sidebar">
     <a class="brand" href="../portal/"><span class="brand-icon">▰</span><span>Hostinger-Web-Bridge</span></a>
     <nav class="nav-list" aria-label="Navegación principal">
-      <a class="nav-item" data-module="portal" href="../portal/"><span class="nav-icon">⌂</span><span class="nav-label">Inicio</span></a>
-      <a class="nav-item active" data-module="files" href="#files"><span class="nav-icon">□</span><span class="nav-label">Archivos</span></a>
-      <a class="nav-item" data-module="python" href="#python"><span class="nav-icon">&lt;/&gt;</span><span class="nav-label">Python</span></a>
-      <a class="nav-item" data-module="terminal" href="#terminal"><span class="nav-icon">›_</span><span class="nav-label">Consola</span></a>
+      <a class="nav-item active" data-module="portal" href="../portal/"><span class="nav-icon">⌂</span><span class="nav-label">Inicio</span></a>
+      <a class="nav-item" data-module="files" href="../files/"><span class="nav-icon">□</span><span class="nav-label">Archivos</span></a>
+      <a class="nav-item" data-module="python" href="../python/"><span class="nav-icon">&lt;/&gt;</span><span class="nav-label">Python</span></a>
+      <a class="nav-item" data-module="terminal" href="../terminal/"><span class="nav-icon">›_</span><span class="nav-label">Consola</span></a>
       <div class="nav-separator"></div>
       <a class="nav-item" href="../files/"><span class="nav-icon">⇧</span><span class="nav-label">Subir</span></a>
       <a class="nav-item" href="../files/"><span class="nav-icon">♲</span><span class="nav-label">Papelera</span></a>
@@ -41,85 +41,16 @@
     <section class="content">
       <section class="panel page-panel remote-panel">
         <div class="page-heading-row">
-          <div><h1>GitHub Remote</h1><p>Opera DiscoD desde la oficina mediante GitHub Actions, sin abrir Hostinger directamente.</p></div>
+          <div><h1>GitHub Remote</h1><p>Inicia sesión una vez para usar las pantallas normales de Archivos, Python y Consola desde la oficina.</p></div>
           <nav class="breadcrumb" aria-label="Ruta">⌂ &nbsp;/&nbsp; GitHub Remote</nav>
         </div>
 
         <section class="remote-auth-card" data-remote-login>
-          <div><strong>Acceso seguro</strong><p>Inicia sesión con la cuenta de GitHub autorizada para usar las herramientas remotas.</p></div>
+          <div><strong>Acceso seguro</strong><p>La sesión GitHub Remote seleccionará automáticamente el backend remoto sin cambiar el diseño de los módulos.</p></div>
           <button class="btn primary" type="button" data-action="github-login">Iniciar sesión con GitHub</button>
         </section>
 
-        <section data-remote-workspace hidden>
-          <div class="remote-session-row">
-            <div><strong>GitHub Remote conectado</strong><span data-session-user>Sesión activa</span></div>
-            <button class="btn" type="button" data-action="logout">Cerrar sesión</button>
-          </div>
-
-          <div class="remote-tabs" role="tablist" aria-label="Herramientas remotas">
-            <button class="btn remote-tab active" type="button" data-mode="files">Archivos</button>
-            <button class="btn remote-tab" type="button" data-mode="python">Python</button>
-            <button class="btn remote-tab" type="button" data-mode="terminal">Consola</button>
-          </div>
-
-          <section class="remote-mode" data-panel="files">
-            <h2>Archivos</h2>
-            <form class="remote-form" data-files-form>
-              <label>Operación
-                <select name="operation">
-                  <option value="list">Explorar / listar</option>
-                  <option value="mkdir">Crear carpeta</option>
-                  <option value="rename">Renombrar</option>
-                  <option value="move">Mover</option>
-                  <option value="delete">Eliminar</option>
-                  <option value="read-text">Leer texto</option>
-                  <option value="write-text">Guardar texto</option>
-                  <option value="prepare-download">Preparar descarga</option>
-                  <option value="upload">Subir desde remote-inbox</option>
-                </select>
-              </label>
-              <label>Ruta relativa a /srv/DiscoD<input name="path" placeholder="Ej.: Python"></label>
-              <label>Nombre<input name="name" placeholder="Archivo o carpeta"></label>
-              <label>Nuevo nombre<input name="new_name" placeholder="Solo para renombrar"></label>
-              <label>Destino<input name="destination" placeholder="Solo para mover"></label>
-              <label class="wide">Contenido<textarea name="content" rows="7" placeholder="Solo para Guardar texto"></textarea></label>
-              <label>Archivo remote-inbox<input name="inbox_file" placeholder="remote-inbox/archivo.ext"></label>
-              <label>Confirmación de eliminación<input name="confirm" placeholder="Escribe DELETE"></label>
-              <div class="wide remote-actions"><button class="btn primary" type="submit">Ejecutar</button></div>
-            </form>
-          </section>
-
-          <section class="remote-mode" data-panel="python" hidden>
-            <h2>Python</h2>
-            <form class="remote-form" data-python-form>
-              <label>Modo
-                <select name="operation">
-                  <option value="python-run">Ejecutar código</option>
-                  <option value="python-run-file">Ejecutar archivo</option>
-                </select>
-              </label>
-              <label>Ruta de archivo<input name="path" placeholder="Python/script.py"></label>
-              <label class="wide">Código<textarea name="code" rows="12" placeholder="print('Hola desde Hostinger')"></textarea></label>
-              <div class="wide remote-actions"><button class="btn primary" type="submit">Ejecutar Python</button></div>
-            </form>
-          </section>
-
-          <section class="remote-mode" data-panel="terminal" hidden>
-            <h2>Consola</h2>
-            <p class="remote-help">Cada comando es una ejecución independiente. La consola interactiva permanece en el modo Bridge directo.</p>
-            <form class="remote-form" data-terminal-form>
-              <label class="wide">Comando<input name="command" placeholder="pwd"></label>
-              <div class="wide remote-actions"><button class="btn primary" type="submit">Ejecutar comando</button></div>
-            </form>
-          </section>
-
-          <section class="remote-result-card" aria-live="polite">
-            <div class="remote-result-head"><strong>Estado</strong><span data-remote-status>Listo</span></div>
-            <pre data-remote-result>Sin resultados todavía.</pre>
-          </section>
-        </section>
-
-        <div class="notice remote-fallback">Si necesitas diagnóstico manual, conserva el acceso de respaldo: <a href="https://github.com/datapublicm/Hostinger-Web-Bridge/actions/workflows/discod-remote.yml" target="_blank" rel="noopener noreferrer">Abrir GitHub Actions</a>.</div>
+        <div class="notice remote-fallback">Después del login volverás a Inicio. Desde allí usa Archivos, Python o Consola normalmente.</div>
       </section>
     </section>
   </main>
