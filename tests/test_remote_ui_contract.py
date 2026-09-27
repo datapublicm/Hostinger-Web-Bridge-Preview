@@ -2,6 +2,7 @@ from pathlib import Path
 
 
 PORTAL = Path('portal/index.html')
+PORTAL_APP = Path('portal/app.js')
 REMOTE = Path('remote/index.html')
 APP = Path('remote/app.js')
 STYLES = Path('remote/styles.css')
@@ -13,6 +14,20 @@ def test_portal_keeps_direct_bridge_and_opens_remote_panel():
     assert 'data-login-form' in html
     assert 'GitHub Remote' in html
     assert 'href="../remote/"' in html
+
+
+def test_portal_preserves_remote_session_navigation():
+    html = PORTAL.read_text('utf-8')
+    app = PORTAL_APP.read_text('utf-8')
+    assert '../shared/supabase-config.js' in html
+    assert '../shared/remote-api.js' in html
+    assert 'data-remote-target="files"' in html
+    assert 'data-remote-target="python"' in html
+    assert 'data-remote-target="terminal"' in html
+    assert 'RemoteAuth.getSession()' in app
+    assert "../remote/#files" in app
+    assert "../remote/#python" in app
+    assert "../remote/#terminal" in app
 
 
 def test_remote_page_reuses_existing_shell_and_has_auth_states():
