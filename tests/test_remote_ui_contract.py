@@ -4,6 +4,7 @@ from pathlib import Path
 PORTAL = Path('portal/index.html')
 REMOTE = Path('remote/index.html')
 APP = Path('remote/app.js')
+STYLES = Path('remote/styles.css')
 
 
 def test_portal_keeps_direct_bridge_and_opens_remote_panel():
@@ -24,6 +25,21 @@ def test_remote_page_reuses_existing_shell_and_has_auth_states():
     assert 'Iniciar sesión con GitHub' in html
     assert 'data-remote-workspace' in html
     assert 'data-action="logout"' in html
+
+
+def test_remote_auth_card_respects_hidden_state_after_login():
+    css = STYLES.read_text('utf-8')
+    assert '.remote-auth-card[hidden]{display:none}' in css
+
+
+def test_remote_sidebar_stays_inside_remote_panel():
+    html = REMOTE.read_text('utf-8')
+    assert 'data-module="files" href="#files"' in html
+    assert 'data-module="python" href="#python"' in html
+    assert 'data-module="terminal" href="#terminal"' in html
+    app = APP.read_text('utf-8')
+    assert "window.addEventListener('hashchange'" in app
+    assert "window.location.hash" in app
 
 
 def test_remote_page_has_three_modes_delete_confirmation_and_results():
