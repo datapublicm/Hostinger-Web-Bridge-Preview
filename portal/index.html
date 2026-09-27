@@ -13,9 +13,9 @@
     <a class="brand" href="../portal/"><span class="brand-icon">▰</span><span>Hostinger-Web-Bridge</span></a>
     <nav class="nav-list" aria-label="Navegación principal">
       <a class="nav-item" data-module="portal" href="../portal/"><span class="nav-icon">⌂</span><span class="nav-label">Inicio</span></a>
-      <a class="nav-item" data-module="files" href="../files/"><span class="nav-icon">□</span><span class="nav-label">Archivos</span></a>
-      <a class="nav-item" data-module="python" href="../python/"><span class="nav-icon">&lt;/&gt;</span><span class="nav-label">Python</span></a>
-      <a class="nav-item" data-module="terminal" href="../terminal/"><span class="nav-icon">›_</span><span class="nav-label">Consola</span></a>
+      <a class="nav-item" data-module="files" data-remote-target="files" href="../files/"><span class="nav-icon">□</span><span class="nav-label">Archivos</span></a>
+      <a class="nav-item" data-module="python" data-remote-target="python" href="../python/"><span class="nav-icon">&lt;/&gt;</span><span class="nav-label">Python</span></a>
+      <a class="nav-item" data-module="terminal" data-remote-target="terminal" href="../terminal/"><span class="nav-icon">›_</span><span class="nav-label">Consola</span></a>
       <div class="nav-separator"></div>
       <a class="nav-item" href="../files/"><span class="nav-icon">⇧</span><span class="nav-label">Subir</span></a>
       <a class="nav-item" href="../files/"><span class="nav-icon">♲</span><span class="nav-label">Papelera</span></a>
@@ -44,9 +44,9 @@
           <nav class="breadcrumb" aria-label="Ruta">⌂ &nbsp;/&nbsp; Inicio</nav>
         </div>
         <div class="module-grid">
-          <article class="module-card"><div class="card-icon">□</div><h2>Archivos</h2><p>Gestiona archivos y carpetas de DiscoD en tu VPS.</p><a class="btn primary" href="../files/">Abrir Archivos</a></article>
-          <article class="module-card"><div class="card-icon">&lt;/&gt;</div><h2>Python</h2><p>Edita y ejecuta scripts de Python en el workspace permitido.</p><a class="btn primary" href="../python/">Abrir Python</a></article>
-          <article class="module-card"><div class="card-icon">›_</div><h2>Consola</h2><p>Accede a la consola remota del VPS mediante el bridge seguro.</p><a class="btn primary" href="../terminal/">Abrir Consola</a></article>
+          <article class="module-card"><div class="card-icon">□</div><h2>Archivos</h2><p>Gestiona archivos y carpetas de DiscoD en tu VPS.</p><a class="btn primary" data-remote-target="files" href="../files/">Abrir Archivos</a></article>
+          <article class="module-card"><div class="card-icon">&lt;/&gt;</div><h2>Python</h2><p>Edita y ejecuta scripts de Python en el workspace permitido.</p><a class="btn primary" data-remote-target="python" href="../python/">Abrir Python</a></article>
+          <article class="module-card"><div class="card-icon">›_</div><h2>Consola</h2><p>Accede a la consola remota del VPS mediante el bridge seguro.</p><a class="btn primary" data-remote-target="terminal" href="../terminal/">Abrir Consola</a></article>
         </div>
         <section class="bridge-login" aria-label="GitHub Remote">
           <div class="bridge-login-copy"><strong>GitHub Remote</strong><span>Desde la oficina: Explorar, Descargar, Subir, Python y Consola mediante GitHub Actions.</span></div>
@@ -74,9 +74,12 @@
     </section>
   </main>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../shared/navigation.js"></script>
 <script src="../shared/bridge-status.js"></script>
 <script src="../shared/bridge-config.js"></script>
+<script src="../shared/supabase-config.js"></script>
+<script src="../shared/remote-api.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
